@@ -50,6 +50,7 @@ jobs:
         npm run build:ssr
       env:
         CI: true
+        DEBUG: '*'
 
     # ==============================
     # DEPLOY IMAGE TO AWS ECR
