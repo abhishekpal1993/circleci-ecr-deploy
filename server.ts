@@ -41,10 +41,20 @@ app.set('view engine', 'html');
 app.set('views', DIST_FOLDER);
 
 // Example Express Rest API endpoints
-// app.get('/api/**', (req, res) => { });
+app.get('/api/*', (req, res) => {
+  res.status(404).send('data requests are not supported');
+});
+
 // Serve static files from /browser
-app.get('*.*', express.static(DIST_FOLDER, {
-  maxAge: '1y'
+app.get('*.*', express.static(join(DIST_FOLDER, 'browser'), {
+  dotfiles: 'ignore',
+  index: false,
+  etag: false,
+  immutable: true,
+  maxAge: '2h',
+  setHeaders: (res, path, stat) => {
+    res.set('x-timestamp', Date.now().toString());
+  }
 }));
 
 // All regular routes use the Universal engine
