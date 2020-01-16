@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'circleci-ecr-deploy'`, () => {
+  it(`should have as title 'ecr-ecs-deploy'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('circleci-ecr-deploy');
+    expect(app.title).toEqual('ecr-ecs-deploy');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('circleci-ecr-deploy app is running!');
+    expect(compiled.querySelector('.content span').textContent).toContain('ecr-ecs-deploy app is running!');
   });
 });

@@ -10,7 +10,7 @@ describe('workspace-project App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('circleci-ecr-deploy app is running!');
+    expect(page.getTitleText()).toEqual('ecr-ecs-deploy app is running!');
   });
 
   afterEach(async () => {

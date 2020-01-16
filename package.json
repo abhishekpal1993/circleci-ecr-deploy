@@ -1,5 +1,5 @@
 {
-  "name": "circleci-ecr-deploy",
+  "name": "ecr-ecs-deploy",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -12,7 +12,7 @@
     "compile:server": "webpack --config webpack.server.config.js --progress --colors",
     "serve:ssr": "node dist/server",
     "build:ssr": "npm run build:client-and-server-bundles && npm run compile:server",
-    "build:client-and-server-bundles": "ng build --prod && ng run circleci-ecr-deploy:server:production --bundleDependencies all"
+    "build:client-and-server-bundles": "ng build --prod && ng run ecr-ecs-deploy:server:production --bundleDependencies all"
   },
   "private": true,
   "dependencies": {

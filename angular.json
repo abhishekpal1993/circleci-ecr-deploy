@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "circleci-ecr-deploy": {
+    "ecr-ecs-deploy": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -67,18 +67,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "circleci-ecr-deploy:build"
+            "browserTarget": "ecr-ecs-deploy:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "circleci-ecr-deploy:build:production"
+              "browserTarget": "ecr-ecs-deploy:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "circleci-ecr-deploy:build"
+            "browserTarget": "ecr-ecs-deploy:build"
           }
         },
         "test": {
@@ -115,11 +115,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "circleci-ecr-deploy:serve"
+            "devServerTarget": "ecr-ecs-deploy:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "circleci-ecr-deploy:serve:production"
+              "devServerTarget": "ecr-ecs-deploy:serve:production"
             }
           }
         },
@@ -148,5 +148,5 @@
         }
       }
     }},
-  "defaultProject": "circleci-ecr-deploy"
+  "defaultProject": "ecr-ecs-deploy"
 }
