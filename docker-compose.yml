@@ -1,11 +1,16 @@
-version: "3.1"
+version: "3.7"
 
 services:
   ecr-ecs-deploy:
     build:
       context: .
-      dockerfile: Dockerfile
+      cache_from:
+        - node:10.18
     ports:
-      - 80:80
       - 4000:4000
     tty: true
+    networks:
+      - appnet
+networks:
+  appnet:
+    driver: "bridge"

@@ -3,4 +3,5 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY . .
 EXPOSE 4000
-CMD [ "npm", "run", "serve:ssr" ]
+RUN npm ci
+CMD [ "npm", "run", "start" ]
