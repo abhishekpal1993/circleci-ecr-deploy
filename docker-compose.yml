@@ -1,7 +1,7 @@
 version: "3.7"
 
 services:
-  ecr-ecs-deploy:
+  ecr-ecs-deploy-local:
     build:
       context: .
       cache_from:
@@ -9,6 +9,16 @@ services:
     ports:
       - 4000:4000
     tty: true
+    networks:
+      - appnet
+  ecr-ecs-deploy-aws:
+    image: 947663353871.dkr.ecr.us-east-2.amazonaws.com/ecr-ecs-deploy-repo
+    environment:
+      - POSTGRES_DB=testDb
+      - POSTGRES_USER=testName
+      - POSTGRES_PASSWORD=testPass
+    ports:
+      - 4200:4000
     networks:
       - appnet
 networks:

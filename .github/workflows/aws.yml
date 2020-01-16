@@ -42,12 +42,10 @@ jobs:
     # ==============================
     # RUN TEST
     # ==============================
-    - name: npm install, build, and test
+    - name: npm install and build
       run: |
         npm ci
-        npm run test:ci
         npm run build:ssr
-        rm -fr node_modules
       env:
         CI: true
         DEBUG: '*'

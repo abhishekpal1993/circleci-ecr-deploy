@@ -46,16 +46,7 @@ app.get('/api/*', (req, res) => {
 });
 
 // Serve static files from /browser
-app.get('*.*', express.static(join(DIST_FOLDER, 'browser'), {
-  dotfiles: 'ignore',
-  index: false,
-  etag: false,
-  immutable: true,
-  maxAge: '2h',
-  setHeaders: (res, path, stat) => {
-    res.set('x-timestamp', Date.now().toString());
-  }
-}));
+app.get('*.*', express.static(DIST_FOLDER));
 
 // All regular routes use the Universal engine
 app.get('*', (req, res) => {
