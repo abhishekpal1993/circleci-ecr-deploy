@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "npm run build:ssr && npm run serve:ssr",
-    "start:angular": "ng serve",
+    "start:angular": "ng serve --open",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
