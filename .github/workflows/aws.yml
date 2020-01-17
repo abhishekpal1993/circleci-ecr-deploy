@@ -74,6 +74,6 @@ jobs:
         # push docker build it to ECR
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$BUILD_IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$BUILD_IMAGE_TAG"
-        
-        echo ::set-env name=IMAGES_TO_DELETE::$( aws ecr list-images --region $AWS_REGION --repository-name $ECR_REPOSITORY --filter "tagStatus=UNTAGGED" --query 'imageIds[*]' --output json )
+
+        IMAGES_TO_DELETE::$( aws ecr list-images --region $AWS_REGION --repository-name $ECR_REPOSITORY --filter "tagStatus=UNTAGGED" --query 'imageIds[*]' --output json )
         aws ecr batch-delete-image --region $AWS_REGION --repository-name $ECR_REPOSITORY --image-ids "$IMAGES_TO_DELETE" || true
