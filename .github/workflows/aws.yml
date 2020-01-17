@@ -57,11 +57,23 @@ jobs:
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         ECR_REPOSITORY: ecr-ecs-deploy-repo
-        IMAGE_TAG: ${{ github.sha }}
+        GITHUB_IMAGE_TAG: ${{ github.sha }}
+        AWS_REGION: us-east-2
       run: |
-        # Build a docker container and
-        # push it to ECR so that it can
-        # be deployed to ECS.
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+        # Check if existing images
+        # use the existing image tag as build tag
+        EXISTING_IMAGE_TAG=$(aws ecr list-images --region us-east-2 --repository-name ecr-ecs-deploy-repo --filter "tagStatus=TAGGED" --query 'imageIds[*].imageTag' --output text)
+        if [ -z "$EXISTING_IMAGE_TAG" ]
+        then
+          BUILD_IMAGE_TAG="$GITHUB_IMAGE_TAG"
+        else
+          BUILD_IMAGE_TAG="$EXISTING_IMAGE_TAG"
+        fi
+        # Build a docker container
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$BUILD_IMAGE_TAG .
+        # push docker build it to ECR
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$BUILD_IMAGE_TAG
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$BUILD_IMAGE_TAG"
+        
+        echo ::set-env name=IMAGES_TO_DELETE::$( aws ecr list-images --region $AWS_REGION --repository-name $ECR_REPOSITORY --filter "tagStatus=UNTAGGED" --query 'imageIds[*]' --output json )
+        aws ecr batch-delete-image --region $AWS_REGION --repository-name $ECR_REPOSITORY --image-ids "$IMAGES_TO_DELETE" || true

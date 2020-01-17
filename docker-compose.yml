@@ -12,7 +12,7 @@ services:
     networks:
       - appnet
   ecr-ecs-deploy-aws:
-    image: 947663353871.dkr.ecr.us-east-2.amazonaws.com/ecr-ecs-deploy-repo
+    image: 947663353871.dkr.ecr.us-east-2.amazonaws.com/ecr-ecs-deploy-repo:912ed7f8dfaa8fd01327e64e8d83fde7ed521974
     environment:
       - POSTGRES_DB=testDb
       - POSTGRES_USER=testName
