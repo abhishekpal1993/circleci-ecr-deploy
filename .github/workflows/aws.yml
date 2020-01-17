@@ -69,11 +69,10 @@ jobs:
         else
           BUILD_IMAGE_TAG="$EXISTING_IMAGE_TAG"
         fi
+        IMAGES_TO_DELETE=$(aws ecr list-images --region $AWS_REGION --repository-name $ECR_REPOSITORY --filter "tagStatus=TAGGED" --query 'imageIds[*]' --output json)
+        aws ecr batch-delete-image --region $AWS_REGION --repository-name $ECR_REPOSITORY --image-ids "$IMAGES_TO_DELETE" || true
         # Build a docker container
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$BUILD_IMAGE_TAG .
         # push docker build it to ECR
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$BUILD_IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$BUILD_IMAGE_TAG"
-
-        IMAGES_TO_DELETE=$(aws ecr list-images --region $AWS_REGION --repository-name $ECR_REPOSITORY --filter "tagStatus=UNTAGGED" --query 'imageIds[*]' --output json)
-        aws ecr batch-delete-image --region $AWS_REGION --repository-name $ECR_REPOSITORY --image-ids "$IMAGES_TO_DELETE" || true
